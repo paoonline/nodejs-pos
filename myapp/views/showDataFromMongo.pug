@@ -1,0 +1,15 @@
+table(border='1')
+ thead
+  tr
+   th id
+   th name
+ tbody
+   each book in books
+    tr
+      td= book._id
+      td= book.name
+      td
+       a(href='/deleteMongo?_id=' + book._id) delete
+       span &nbsp;
+       a(href='/editFromMongo?_id=' + book._id) edit
+      

@@ -1,0 +1,31 @@
+<div class="app-bar bg-lightBlue">
+    <div class="app-bar-element">
+        <a @click="resetSale()" class="fg-white">
+            <i class="mif-history"></i> เริ่มขายใหม่
+        </a>
+    </div>
+    <div class="app-bar-divider"></div>
+
+    <div class="app-bar-element">
+        <a @click="dialogEndSale()" class="fg-white">
+            <i class="mif-checkmark"></i> จบการขาย
+        </a>
+    </div>
+
+    <div class="app-bar-divider"></div>
+
+    <div class="app-bar-element">
+        <a @click="loadBillSales()" class="fg-white">
+            <i class="mif-file-text"></i> บิลขาย
+        </a>
+    </div>
+
+    <div class="app-bar-divider"></div>
+
+    <div class="app-bar-element">
+        <a @click="printLastBill()" class="fg-white">
+            <i class="mif-printer"></i> พิมพ์บิลล่าสุด
+        </a>
+    </div>
+    <div class="app-bar-divider"></div>
+</div>

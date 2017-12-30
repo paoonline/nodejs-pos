@@ -1,0 +1,18 @@
+a(href='newRecord') new Record
+
+table
+ thead
+  tr
+    th id
+    th name
+    th price
+  tbody
+    each book in books
+      tr
+        td= book.id
+        td= book.name
+        td= book.price
+        td
+          a(href='/deleteData?id='+ book.id) delete
+          span &nbsp;
+           a(href='/editData?id='+ book.id) edit

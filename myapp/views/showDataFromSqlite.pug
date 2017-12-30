@@ -1,0 +1,10 @@
+table(border='1')
+ tbody 
+    each book in books
+     tr
+       td= book.id
+       td= book.name
+       td
+        a(href='/deleteFromSqlite?id=' + book.id) delete
+        span &nbsp;
+         a(href='/editFromSqlite?id=' + book.id) edit

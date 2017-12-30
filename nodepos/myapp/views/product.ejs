@@ -1,0 +1,65 @@
+<div class="panel" style="margin: 20px">
+    <div class="heading">
+        <i class="icon mif-gift"> </i>
+        <span class="title">ข้อมูลสินค้า</span>
+
+    </div>
+    <div class="content" style="padding: 20px">
+        <a class="shortcut-button bg-blue fg-white" href="/product_form">
+            <i class="icon mif-plus"></i>
+            <span class="title">เพิ่มรายการ</span>
+        </a>
+        <table class="table bordered ">
+            <thead>
+
+                <tr>
+                    <div class="grid">
+                        <div class="row">
+                            <div class="span4">
+                                <th>ลำดับ</th>
+                                <th>barcode</th>
+                            </div>
+                            <div class="span4">
+                                <th>ชื่อสินค้า</th>
+                                <th>ราคาทุน</th>
+                            </div>
+                            <div class="span4">
+                                <th>ราคาขาย</th>
+                                <th></th>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(function(p){ %>
+                    <tr>
+                        <td>
+                            <%= n++ %>
+                        </td>
+                        <td>
+                            <%= p.barcode %>
+                        </td>
+                        <td>
+                            <%= p.name %>
+                        </td>
+                        <td>
+                            <%= p.old_price %>
+                        </td>
+                        <td>
+                            <%= p.price %>
+                        </td>
+                        <td class="align-center">
+                            <a href="/product_edit?id=<%= p._id %>" class="fg-teal">
+                                <i class="icon mif-pencil mif-2x"></i>
+                            </a>
+                            <a href="/product_delete?id=<%= p._id %>" class="fg-red">
+                                <i class="icon mif-cross mif-2x"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

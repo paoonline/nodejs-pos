@@ -1,0 +1,25 @@
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.fg-red {
+    color: red;
+}
+
+.btn {
+    padding: 10px;
+}
+
+.btn-primary {
+    border: blue 1px solid;
+    background: #aaaaaa;
+    color: black;
+}
+
+#myParagraph {
+    color: red;
+}

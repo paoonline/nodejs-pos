@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nodePOS Back Office</title>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/metro.min.css" />
+    <link rel="stylesheet" href="/stylesheets/metro-icons.min.css" />
+
+    <script src="https://metroui.org.ua/js/jquery-2.1.3.min.js"></script>
+    <script src="/javascripts/metro.min.js"></script>
+</head>
+
+<body class="bg-dark">
+    <div class="app-bar darcula" data-role="appbar">
+        <div class="app-bar-element">
+            <a class="fg-white" onclick="metroDialog.open('#dialog','center')">
+                <span id="toggle-tiles-dropdown" class="mif-apps mif-2x"></span>
+            </a>
+        </div>
+        <div class="app-bar-divider"></div>
+        <div class="app-bar-element">nodePOS</div>
+    </div>
+
+    <div>
+        <%- content %>
+    </div>
+
+    <div>
+        <%- include('menu') %>
+    </div>
+</body>
+
+</html>
