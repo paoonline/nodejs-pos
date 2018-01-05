@@ -1,0 +1,33 @@
+<div id="charmBillSales" data-role="charm" class="bg-teal fg-white" style="padding:20px" data-position="bottom">
+    <h3>
+        <i class="mif-file-text"></i> บิลขายทั้งหมด ที่จบการขายไปแล้ว
+    </h3>
+    <table class="table border bordered bg-white fg-dark">
+        <thead>
+            <tr>
+                <td>วันที่ออกบิล</td>
+                <td>เลขบิล</td>
+                <th class="align-right">ยอดบิล</th>
+                <th class="align-right">รับเงิน</th>
+                <th class="align-right">ส่วนลด</th>
+                <th class="align-right">เงินทอน</th>
+                <td width="150px"></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, index) in billSales">
+                <td>{{ item.created_at }}</td>
+                <td>{{ item._id }}</td>
+                <td class="align-right">{{ item.totalPrice }}</td>
+                <td class="align-right">{{ item.inputMoney }}</td>
+                <td class="align-right">{{ item.reduceMoney }}</td>
+                <td class="align-right">{{ item.returnMoney }}</td>
+                <td class="align-center">
+                    <button class="button large-button bg-green fg-white" @click="printBill(item)">
+                        <i class="mif-printer"></i> พิมพ์บิล
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

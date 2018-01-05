@@ -1,0 +1,58 @@
+<div id="charmEndSale" data-role="charm" data-position="top" class="bg-green fg-white" style="padding:20px">
+    <p>&nbsp;</p>
+    <div class="grod">
+        <div class="row cells2">
+            <div class="cell align-right">
+                <h3>ยอดทั้งหมด</h3>
+            </div>
+            <div class="cell">
+                <div class="input-control full-size">
+                    <input type="text" v-model="totalPrice" id="totalPrice" disabled class="align-right" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row cells2">
+            <div class="cell align-right">
+                <h3>รับเงิน</h3>
+            </div>
+            <div class="cell">
+                <div class="input-control full-size">
+                    <input type="text" v-model="inputMoney" id="inputMoney" class="align-right" placeholder="0" @keyup="computePrice()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row cells2">
+            <div class="cell align-right">
+                <h3>ส่วนลดท้ายบิล</h3>
+            </div>
+            <div class="cell">
+                <div class="input-control full-size">
+                    <input type="text" v-model="reduceMoney" id="reduceMoney" class="align-right" placeholder="0" @keyup="computePrice()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row cells2">
+            <div class="cell align-right">
+                <h3>เงินทอน</h3>
+            </div>
+            <div class="cell">
+                <div class="input-control full-size">
+                    <input type="text" v-model="returnMoney" id="returnMoney" disabled placeholder="0" class="align-right" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row cells1">
+            <div class="cell align-center">
+                <p>&nbsp;</p>
+                <button @click="endSale()" class="button large-button bg-teal fg-white">
+                   <i class="mif-checkmark"></i>
+                   จบการขาย
+               </button>
+            </div>
+        </div>
+    </div>
+</div>

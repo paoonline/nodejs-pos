@@ -1,0 +1,51 @@
+<div class="content" style="padding: 20px">
+    <div class="grid">
+        <div class="row cells12">
+            <div class="cell colspan3">
+                <div class="input-control text full-size">
+                    <input type="text" v-model="barcode" @keyup.enter="findByBarcode()" placeholder="Barcode" />
+                    <a class="button bg-teal fg-white" @click="dialogProduct()">
+                        <span class="mif-search"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="cell colspan7"></div>
+            <div class="cell colspan2">
+                <div class="input-control full-size align-right">
+                    <input type="text" class="bg-dark fg-lightTeal align-right" style="font-size: 25px" v-model="totalPrice" disabled />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table bordered border">
+        <thead>
+            <tr>
+                <td width="40px" class="align-right">ลำดับ</td>
+                <td>บาร์โค้ด</td>
+                <td>สินค้า</td>
+                <td width="100px" class="align-right">จำนวน</td>
+                <td width="100px" class="align-right">ราคา</td>
+                <td width="100px" class="align-right">รวม</td>
+                <td width="40px" class="align-right"></td>
+            </tr>
+        </thead>
+        <tbody class="bg-white" v-clock>
+            <tr v-for="(item, index) in billSaleDetails">
+                <td>{{ index +1 }}</td>
+                <td>{{ item.barcode }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.price }}</td>
+
+                <td>{{ item.total}}</td>
+
+                <td class="align-center">
+                    <button class="button bg-red fg-white" @click="removeSaleDetail(item)">
+                        <i class="mif-cross"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,62 @@
+<div id="billSale" style="display: none">
+    <table width="100%">
+        <tr>
+            <td width="60%">
+                <div>{{ org.name }}</div>
+                <div>{{ org.address }}</div>
+                <div>เบอร์โทร :{{ org.name }} เลขประจำตัวผู้เสียภาษี {{ org.tax }}</div>
+            </td>
+            <td width="40%">
+                <div><strong>ใบเสร็จรับเงิน</strong></div>
+                <div>เลขที่: {{ billSaleForPrint.billSale._id }}</div>
+                <div>วันที่: {{ billSaleForPrint.billSale.created_at }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table border bordered">
+        <thead>
+            <tr>
+                <td align="right">ลำดับ</td>
+                <td>รหัสสินค้า</td>
+                <td>รายการ</td>
+                <td align="right">ราคาต่อหน่วย</td>
+                <td align="right">จำนวน</td>
+                <td align="right">รวมเป็นเงิน</td>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item, index) in billSaleForPrint.items">
+                <td align="right">{{ index+1 }}</td>
+                <td>{{ item.barcode }}</td>
+                <td>{{ item.name }}</td>
+                <td align="right">{{ item.price }}</td>
+                <td align="right">{{ item.qty }}</td>
+                <td align="right">{{ item.qty * item.price }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <td colspan="4">รวม</td>
+            <td align="right">{{ sumQty }}</td>
+            <td align="right">{{ sumPrice }}</td>
+        </tfoot>
+    </table>
+    <p>&nbsp;</p>
+    <table width="100%">
+        <tr>
+            <td width="33%">
+                <div>ผู้รับเงิน</div>
+                <p>....................</p>
+            </td>
+            <td width="33%">
+                <div>ผู้รับสินค้า</div>
+                <p>....................</p>
+            </td>
+            <td width="33%">
+                <div>ผู้ตรวจสอบ</div>
+                <p>....................</p>
+            </td>
+        </tr>
+    </table>
+</div>

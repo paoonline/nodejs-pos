@@ -1,0 +1,26 @@
+<div id="charmProduct" data-role="charm" data-position="top" class="bg-blue fg-white" style="padding:20px">
+    <h3>เลือกสินค้า</h3>
+    <table class="table bordered border bg-white fg-dark">
+        <thead>
+            <tr>
+                <td width="200px"></td>
+                <td>barcode</td>
+                <td>สินค้า</td>
+                <td>ราคา</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(p, index) in products">
+                <td>
+                    <button @click="chooseProduct(p)" class="button large-button bg-teal fg-white">
+                        <i class="mif-checkmark"></i>
+                        เลือกสินค้า
+                    </button>
+                </td>
+                <td>{{ p.barcode }}</td>
+                <td>{{ p.name }}</td>
+                <td class="align-right">{{ p.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
