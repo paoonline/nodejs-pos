@@ -1,0 +1,49 @@
+<div id="appStock" class="panel" style="margin: 20px">
+    <div class="heading">
+        <i class="icon mif-database"></i>
+        <span class="title">Stock สินค้า</span>
+    </div>
+    <div class="content" style="padding: 20px">
+        <div class="input-control text full-size">
+            <input type="text" v-model="barcode" @keyup.enter="findByBarcode()" placeholder="Barcode" />
+            <div class="button-group">
+                <a class="button bg-teal fg-white" @click="browse()">
+                    <span class="mif-search"></span>
+                </a>
+            </div>
+        </div>
+        <table class="table border bordered bg-white">
+            <thead>
+                <tr>
+                    <th style="text-align: right" width="50px">ลำดับ</th>
+                    <th width="150px"></th>
+                    <th>รายการ</th>
+                    <th style="text-align: right" width="100px">จำนวน</th>
+                    <th style="text-align: right" width="120px">ราคาต่อหน่วย</th>
+                    <th style="text-align: right" width="100px">รวม</th>
+                    <th width="50x"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in billImports">
+                    <td class="align-right">{{ index + 1 }} </td>
+                    <td>{{ item.barcode }}</td>
+                    <td>{{ item.name }}</td>
+                    <td class="align-right">{{ item.qty }} </td>
+                    <td class="align-right">{{ item.price }} </td>
+                    <td class="align-right">{{ item.qty * item.price }} </td>
+
+                    <td align="center">
+                        <a class="button bg-red fg-white" @click="removeItem(item)">
+                            <i class="mif-cross"></i>
+
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <% include charmProduct %>
+</div>
+
+<script src="/javascripts/stock.js"></script>

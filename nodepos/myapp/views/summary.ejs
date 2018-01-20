@@ -1,0 +1,41 @@
+<div id="appSummary" class="panel" style="margin: 20px">
+    <div class="heading">
+        <i class="icon mif-stack"></i>
+        <span class="title">รายงานสรุป</span>
+    </div>
+    <div class="content" style="padding: 20px">
+        <div class="input-control select">
+            <select v-model="y">
+                <option v-for="y in yearItem" v-bind="y">
+                    {{ y }}
+                </option>
+            </select>
+        </div>
+        <div class="input-control select">
+            <select v-model="m">
+                <option v-for="item in monthItem" v-bind:value="item.i">
+                    {{ item.value }}
+                </option>
+            </select>
+        </div>
+        <a class="button bg-green fg-white" @click="search()">
+            <i class="mif-checkmark"></i> แสดงรายงาน
+        </a>
+
+        <table class="table border bordered bg-white">
+            <thead>
+                <tr>
+                    <th width="100px" style="text-align: right">วันที่</th>
+                    <th style="text-align: right">ยอดขาย</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in items">
+                    <td style="text-align: right">{{ index+1 }}</td>
+                    <td style="text-align: right">{{ item }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="/javascripts/summary.js"></script>

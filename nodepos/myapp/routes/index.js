@@ -13,9 +13,9 @@ router.use(ejs_layout.express);
 
 router.use(session({
     secret: 'NodePOS',
-    store: new FileStore({ secret: 'nodePos' }),
-    resave: true,
-    saveUninitialized: true
+    store: new FileStore({ secret: 'NodePOS' }),
+    resave: false,
+    saveUninitialized: false
 }));
 
 /* GET home page. */
@@ -698,6 +698,318 @@ router.post('/lastBillInfo', checkLogin, function(req, res, next) {
         });
     });
 });
+
+router.get('/stock', checkLogin, function(req, res, next) {
+    var content = {
+        block: 'stock'
+    }
+
+    res.layout('layout_home', {}, { content: content });
+});
+
+
+
+router.post('/saveProductToStock', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        if (err) console.log(err);
+
+        var data = {
+            qty: 1,
+            price: req.body.price,
+            product_id: new ObjectId(req.body._id),
+            created_at: new Date()
+        };
+
+        db.collection('billImport').insertOne(data, function(err) {
+            res.send({ message: 'success' });
+        });
+    });
+});
+
+router.get('/importToStocks', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+
+        if (err) console.log(err);
+
+        db.collection('billImport').find().toArray(function(err, result) {
+            if (err) console.log(err);
+
+            if (result != null) {
+                db.collection('product').find().toArray(function(err, products) {
+                    var arr = [];
+
+                    for (var i = 0; i < result.length; i++) {
+                        var productId = result[i].product_id.toString();
+                        var product = products.find(p => p._id.toString() == productId);
+
+                        if (product != null) {
+                            var row = {
+                                _id: result[i]._id,
+                                qty: result[i].qty,
+                                barcode: product.barcode,
+                                price: product.price,
+                                name: product.name
+                            };
+                            arr.push(row);
+                        }
+                    }
+                    res.send(arr);
+                });
+            } else {
+                res.send({});
+            }
+
+        });
+    });
+});
+
+router.post('/removeBillImport', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        if (err) console.log(err);
+
+        var con = {
+            _id: new ObjectId(req.body._id)
+        };
+
+        db.collection('billImport').deleteOne(con, function(err) {
+            if (err) console.log(err);
+
+            res.send({ message: 'success' });
+        });
+    });
+});
+
+router.get('/report', checkLogin, function(req, res, next) {
+    var content = {
+        block: 'report'
+    }
+    res.layout('layout_home', {}, { content: content });
+});
+
+router.get('/reportIncome', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        var order = { _id: -1 };
+
+        db.collection('billSaleDetail').find().sort(order).toArray(function(err, result) {
+            if (err) console.log(err);
+
+            if (result != null) {
+                var arr = [];
+
+                result.forEach(function(billSaleDetail) {
+                    var con = {
+                        _id: billSaleDetail.bill_sale_id,
+                        status: 'close'
+                    };
+
+                    db.collection('billSale').findOne(con, function(err, billSale) {
+                        if (err) console.log(err);
+
+                        if (billSale != null) {
+                            var con = { _id: billSaleDetail.product_id }
+                            db.collection('product').findOne(con, function(err, product) {
+                                if (err) console.log(err);
+
+                                if (product != null) {
+                                    var row = {
+                                        created_at: billSale.created_at,
+                                        barcode: product.barcode,
+                                        name: product.name,
+                                        price: billSaleDetail.price,
+                                        qty: billSaleDetail.qty,
+                                        oldPrice: product.old_price
+
+                                    };
+
+                                    arr.push(row);
+                                }
+                            });
+                        } else {
+                            res.send({});
+                        }
+                    })
+                });
+
+                setTimeout(function() {
+                    res.send(arr);
+                }, 10);
+            } else {
+                res.send({});
+            }
+        });
+    });
+});
+
+router.get('/reportStock', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        if (err) console.log(err);
+
+        db.collection('product').find().toArray(function(err, product) {
+            if (err) console.log(err);
+
+            if (product != null) {
+                var arr = [];
+
+                product.forEach(function(p) {
+                    var con = { product_id: p._id };
+                    var qty = 0;
+
+                    db.collection('billImport').find(con).toArray(function(err, billImport) {
+                        if (err) console.log(err);
+
+                        if (billImport != null) {
+                            billImport.forEach(function(bi) {
+                                qty += bi.qty;
+                            });
+                        }
+                        db.collection('billSaleDetail').find(con).toArray(function(err, billSaleDetail) {
+                            if (err) console.log(err);
+
+                            if (billSaleDetail != null) {
+                                billSaleDetail.forEach(function(bsd) {
+                                    qty -= bsd.qty;
+                                });
+                            }
+
+                            var row = {
+                                barcode: p.barcode,
+                                name: p.name,
+                                qty: qty,
+                                oldPrice: p.old_price,
+                                price: p.price
+
+                            };
+                            arr.push(row);
+                        });
+                    });
+                });
+                setTimeout(function() {
+                    res.send(arr);
+                }, 10)
+            }
+        });
+    });
+});
+
+router.get('/summary', checkLogin, function(req, res, next) {
+    var content = {
+        block: 'summary'
+    }
+
+    res.layout('layout_home', {}, { content: content });
+});
+
+router.post('/summary', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        if (err) console.log(err);
+
+        var con = {
+            status: 'close'
+        };
+
+        db.collection('billSale').find(con).toArray(function(err, billSale) {
+            if (err) console.log(err);
+
+            if (billSale != null) {
+                var arr = [];
+                var totalDayInMonths = daysInMonth(req.body.m, req.body.y);
+
+                if (totalDayInMonths > 0) {
+                    for (var i = 0; i < totalDayInMonths; i++) {
+                        arr[i] = 0;
+
+                        billSale.forEach(function(billSale) {
+                            var y = req.body.y;
+                            var billYear = billSale.created_at.getFullYear();
+                            var m = req.body.m;
+                            var billMonth = billSale.created_at.getMonth() + 1;
+                            var billDay = billSale.created_at.getDate() - 1
+
+                            if (billYear == y && billMonth == m && billDay == i) {
+                                var con = { bill_sale_id: billSale._id };
+                                db.collection('billSaleDetail').find(con).toArray(function(err, result) {
+                                    if (err) console.log(err);
+
+                                    if (result != null) {
+                                        result.forEach(function(item) {
+
+                                            var totalPerRow = (item.qty * item.price);
+                                            arr[billDay] += totalPerRow
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    setTimeout(function() {
+                        res.send(arr);
+                    }, 100);
+                }
+            }
+        });
+    });
+});
+
+router.get('/profile', checkLogin, function(req, res, next) {
+    var content = {
+        block: 'profile',
+        data: {
+            user_id: req.session.user_id
+        }
+
+    }
+    res.layout('layout_home', {}, { content: content });
+});
+
+router.post('/userInfo', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        if (err) console.log(err);
+
+        var user_id = req.session.user_id;
+
+        var con = {
+            _id: new ObjectId(user_id)
+        };
+        db.collection('user').findOne(con, function(err, result) {
+            if (err) console.log(err);
+
+            if (result) {
+                res.send(result);
+            } else {
+                res.send({});
+            }
+        });
+    });
+});
+
+router.post('/profile', checkLogin, function(req, res, next) {
+    mongo.connect(url, function(err, db) {
+        if (err) console.log(err);
+
+        var user_id = req.session.user_id;
+
+        var con = {
+            _id: new ObjectId(user_id)
+        };
+
+        var data = {
+            name: req.body.name,
+            usr: req.body.usr,
+            pwd: req.body.pwd,
+            confirm_pwd: req.body.pwd,
+            level: req.body.level
+        };
+        db.collection('users').findOneAndUpdate(con, data, function(err, result) {
+            if (err) console.log(err);
+            res.send({ message: 'success' });
+        });
+
+    });
+});
+
+function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+}
 
 function checkLogin(req, res, next) {
     if (req.session.user_id == undefined) {

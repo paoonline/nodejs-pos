@@ -80,14 +80,15 @@ var app = new Vue({
             }, err => {});
         },
         loadBillSaleDetails: function() {
+            app.totalPrice = 0;
             Vue.http.get('/billSaleDetails').then(res => {
                 app.billSaleDetails = res.body;
-
                 for (var i = 0; i < res.body.length; i++) {
                     var qty = Number(res.body[i].qty);
                     var price = Number(res.body[i].price);
 
                     var sumPerRow = (qty * price);
+
 
                     app.totalPrice += Number(sumPerRow);
                 }

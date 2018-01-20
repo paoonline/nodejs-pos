@@ -1,0 +1,56 @@
+<div id="appProfile" class="panel" style="margin: 20px">
+    <div class="heading">
+        <i class="icon mif-user"></i>
+        <span class="title">แก้ไขข้อมูลส่วนตัว</span>
+    </div>
+    <div class="content" style="padding: 20px">
+        <div class="grid">
+            <div class="row cells1">
+                <div class="cell">
+                    <label>ชื่อ</label>
+                    <div class="input-control text full-size">
+                        <input type="text" v-model="user.name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row cells1">
+                <div class="cell">
+                    <label>Username</label>
+                    <div class="input-control text full-size">
+                        <input type="text" v-model="user.usr" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row cells1">
+                <div class="cell">
+                    <label>Password <span class="fg-red">*ถ้าไม่ต้องการเปลี่ยนรหัสผ่านใหม่ ไม่ต้องป้อนข้อมูล</span></label>
+                    <div class="input-control password full-size">
+                        <input type="password" m-model="user.pwd" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row cells1">
+                <div class="cell">
+                    <label>ยืนยัน Password <span class="fg-red">*ถ้าไม่ต้องการเปลี่ยนรหัสผ่านใหม่ ไม่ต้องป้อนข้อมูล</span></label>
+                    <div class="input-control password full-size">
+                        <input type="password" m-model="user.pwd" />
+                    </div>
+                </div>
+            </div>
+
+            <button class="button large-button bg-green fg-white" @click="save()">
+                <i class="mif-checkmark"></i> บันทึก
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css" />
+
+<script src="http://alertifyjs.com/build/alertify.js"></script>
+<script src="/javascripts/profile.js"></script>

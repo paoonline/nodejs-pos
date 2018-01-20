@@ -1,0 +1,89 @@
+<div id="appReport" class="panel" style="margin: 20px">
+    <div class="heading">
+        <i class="icon mif-file-text"></i>
+        <span class="title">รายงาน</span>
+    </div>
+    <div class="content" style="padding: 20px">
+        <a class="shortcut-button bg-teal fg-white" @click="reportIncome()">
+            <i class="icon mif-dollar2"></i>
+            <span class="title">ยอดขาย</span>
+        </a>
+        <a class="shortcut-button bg-red fg-white" @click="reportStock()">
+            <i class="icon mif-database"></i>
+            <span class="title">สต๊อก</span>
+        </a>
+        <div>&nbsp;</div>
+        <div v-show="showIncome">
+            <div class="panel">
+                <div class="heading bg-teal">
+                    <i class="icon mif-dollar2 bg-darkTeal"></i>
+                    <div class="title">รายงานยอดขาย</div>
+                </div>
+                <div class="content bg-darkTeal" style="padding:20px">
+                    <table class="table border bordered bg-white">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>วันที่</th>
+                                <th>บาร์โค้ด</th>
+                                <th>รายการ</th>
+                                <th>ราคาทุน</th>
+                                <th>ราคาขาย</th>
+                                <th>จำนวน</th>
+                                <th>รวมต้นทุน</th>
+                                <th>รวมยอดขาย</th>
+                                <th>กำไร</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in billSaleDetails">
+                                <td>{{ index+1 }}</td>
+                                <td>{{ item.created_at }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.oldPrice }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.qty }}</td>
+                                <td>{{ item.qty * item.oldPrice }}</td>
+                                <td>{{ item.qty * item.price }}</td>
+                                <td>{{ (item.qty * item.price) - (item.qty * item.oldPrice) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div v-show="showStock">
+            <div class="panel">
+                <div class="heading bg-red">
+                    <i class="icon mif-database bg-darkRed"></i>
+                    <div class="title">รายงาน Stock คงเหลือ</div>
+                </div>
+                <div class="content bg-darkRed" style="padding:20px">
+                    <table class="table border bordered bg-white">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>บาร์โค้ด</th>
+                                <th>ราคาทุน</th>
+                                <th>ราคาขาย</th>
+                                <th>คงเหลือ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in billImportProducts">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ item.barcode }}</td>
+                                <td>{{ item.oldPrice }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.qty }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/javascripts/report.js"></script>
